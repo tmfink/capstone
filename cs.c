@@ -65,13 +65,8 @@ extern void Sparc_enable(void);
 extern void SystemZ_enable(void);
 extern void XCore_enable(void);
 
-static void archs_enable(void)
+static void archs_enable_once(void)
 {
-	static bool initialized = false;
-
-	if (initialized)
-		return;
-
 #ifdef CAPSTONE_HAS_ARM
 	ARM_enable();
 #endif
@@ -96,9 +91,11 @@ static void archs_enable(void)
 #ifdef CAPSTONE_HAS_XCORE
 	XCore_enable();
 #endif
+}
 
-
-	initialized = true;
+static void archs_enable(void)
+{
+	ONCE_SYNC_FUNC(archs_enabled, archs_enable_once);
 }
 
 unsigned int all_arch = 0;

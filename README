@@ -22,7 +22,7 @@ Capstone offers some unparalleled features:
 - Native support for all popular platforms: Windows, Mac OSX, iOS, Android,
   Linux, *BSD, Solaris, etc.
 
-- Thread-safe by design.
+- Thread-safe by design (when using CAPSTONE_THREAD_SAFE option).
 
 - Special support for embedding into firmware or OS kernel.
 

@@ -8,6 +8,13 @@
 #if !defined(__CYGWIN__) && !defined(__MINGW32__) && !defined(__MINGW64__) && (defined (WIN32) || defined (WIN64) || defined (_WIN32) || defined (_WIN64))
 // MSVC
 
+#ifdef CAPSTONE_THREAD_SAFE
+// Only required if we need threading
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#define CAPSTONE_THREAD_WINTHREAD
+#endif
+
 // stdbool.h
 #if (_MSC_VER < 1800) || defined(_KERNEL_MODE)
 // this system does not have stdbool.h
@@ -25,8 +32,41 @@ typedef unsigned char bool;
 #else
 // not MSVC -> C99 is supported
 #include <stdbool.h>
+
+#ifdef CAPSTONE_THREAD_SAFE
+#include <pthread.h>
+#define CAPSTONE_THREAD_PTHREAD
 #endif
 
+#endif
+
+// Platform-independent threading interface
+
+#ifdef CAPSTONE_THREAD_WINTHREAD
+#define _DECLARE_ONCE_VAR(once_var) static INIT_ONCE once_var = INIT_ONCE_STATIC_INIT
+#define _ONCE_SYNC_CALL(once_var, init_routine) InitOnceExecuteOnce(&once_var, init_routine, NULL, NULL)
+#endif
+
+#ifdef CAPSTONE_THREAD_PTHREAD
+#define _DECLARE_ONCE_VAR(once_var) static pthread_once_t once_var = PTHREAD_ONCE_INIT
+#define _ONCE_SYNC_CALL(once_var, init_routine) pthread_once(&once_var, init_routine)
+#endif
+
+#ifndef CAPSTONE_THREAD_SAFE
+#define _DECLARE_ONCE_VAR(once_var) static bool once_var = false
+#define _ONCE_SYNC_CALL(once_var, init_routine) do { \
+	if (once_var) { \
+		return; \
+	} \
+	init_routine(); \
+	once_var = true; \
+	} while(0)
+#endif
+
+#define ONCE_SYNC_FUNC(once_var, init_routine) do { \
+	_DECLARE_ONCE_VAR(once_var); \
+	_ONCE_SYNC_CALL(once_var, init_routine); \
+	} while(0)
 
 // handle C99 issue (for pre-2013 VisualStudio)
 #if defined(CAPSTONE_HAS_OSXKERNEL) || (defined(_MSC_VER) && (_MSC_VER <= 1700 || defined(_KERNEL_MODE)))

@@ -1,6 +1,6 @@
 # Makefile for Cstool of Capstone Disassembly Engine
 
-include ../functions.mk
+include ../common.mk
 
 .PHONY: clean all
 
@@ -30,9 +30,9 @@ all: $(TARGET)
 $(TARGET): ../$(LIBCAPSTONE) $(OBJECTS)
 ifeq ($(V),0)
 	$(call log,LINK,$@)
-	@${CC} $(OBJECTS) $(LDFLAGS) -o $@
+	@${CC} $(OBJECTS) $(LDFLAGS) -o $@ $(LDLIBS)
 else
-	${CC} $(OBJECTS) $(LDFLAGS) -o $@
+	${CC} $(OBJECTS) $(LDFLAGS) -o $@ $(LDLIBS)
 endif
 
 clean:

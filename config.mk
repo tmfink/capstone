@@ -80,3 +80,9 @@ CAPSTONE_SHARED ?= yes
 # then kern_os_* functions are used for memory management.
 
 CAPSTONE_HAS_OSXKERNEL ?= no
+
+################################################################################
+# Change 'CAPSTONE_THREAD_SAFE = yes' to enable thread safety. Capstone will use
+# Windows threading primitives on Windows and Pthread on other platforms.
+
+CAPSTONE_THREAD_SAFE ?= no

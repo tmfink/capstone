@@ -3,7 +3,7 @@
 
 include config.mk
 include pkgconfig.mk	# package version
-include functions.mk
+include common.mk
 
 # Verbose output?
 V ?= 0

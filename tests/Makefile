@@ -2,7 +2,7 @@
 # By Nguyen Anh Quynh <aquynh@gmail.com>, 2013-2014
 
 include ../config.mk
-include ../functions.mk
+include ../common.mk
 
 # Verbose output?
 V ?= 0
@@ -131,12 +131,12 @@ endif
 
 
 define link-dynamic
-	$(CC) $(LDFLAGS) $< -l$(LIBNAME) -o $@
+	$(CC) $(LDFLAGS) $< -l$(LIBNAME) -o $@ $(LDLIBS)
 endef
 
 
 define link-static
-	$(CC) $(LDFLAGS) $< $(ARCHIVE) -o $(call staticname,$@)
+	$(CC) $(LDFLAGS) $< $(ARCHIVE) -o $(call staticname,$@) $(LDLIBS)
 endef
 
 
