@@ -51,6 +51,7 @@ endif ()
 ## sources
 set(SOURCES_ENGINE
     cs.c
+    cs_arch_globals.c
     MCInst.c
     MCInstrDesc.c
     MCRegisterInfo.c

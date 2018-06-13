@@ -44,3 +44,12 @@ the bindings coming with the core to avoid potential incompatibility issue
 with older versions.
 See bindings/<language>/README for detail instructions on how to compile &
 install the bindings.
+
+The generate_cs_arch_globals.py script creates cs_arch_globals.c, so do not modify cs_arch_globals.c by hand.
+Instead, make changes generate_cs_arch_globals.py. To update cs_arch_globals.c, run:
+
+	$ ./generate_cs_arch_globals.py --update
+
+To let the build system decide whether to update cs_arch_globals.c, set CHECK_CS_ARCH_GLOBALS:
+
+	$ CHECK_CS_ARCH_GLOBALS=1 ./make.sh

@@ -51,58 +51,6 @@
 #define SKIPDATA_MNEM NULL
 #endif
 
-cs_err (*cs_arch_init[MAX_ARCH])(cs_struct *) = { NULL };
-cs_err (*cs_arch_option[MAX_ARCH]) (cs_struct *, cs_opt_type, size_t value) = { NULL };
-void (*cs_arch_destroy[MAX_ARCH]) (cs_struct *) = { NULL };
-cs_mode cs_arch_disallowed_mode_mask[MAX_ARCH] = { 0 };
-
-extern void ARM_enable(void);
-extern void AArch64_enable(void);
-extern void Mips_enable(void);
-extern void X86_enable(void);
-extern void PPC_enable(void);
-extern void Sparc_enable(void);
-extern void SystemZ_enable(void);
-extern void XCore_enable(void);
-
-static void archs_enable(void)
-{
-	static bool initialized = false;
-
-	if (initialized)
-		return;
-
-#ifdef CAPSTONE_HAS_ARM
-	ARM_enable();
-#endif
-#ifdef CAPSTONE_HAS_ARM64
-	AArch64_enable();
-#endif
-#ifdef CAPSTONE_HAS_MIPS
-	Mips_enable();
-#endif
-#ifdef CAPSTONE_HAS_POWERPC
-	PPC_enable();
-#endif
-#ifdef CAPSTONE_HAS_SPARC
-	Sparc_enable();
-#endif
-#ifdef CAPSTONE_HAS_SYSZ
-	SystemZ_enable();
-#endif
-#ifdef CAPSTONE_HAS_X86
-	X86_enable();
-#endif
-#ifdef CAPSTONE_HAS_XCORE
-	XCore_enable();
-#endif
-
-
-	initialized = true;
-}
-
-unsigned int all_arch = 0;
-
 #if defined(CAPSTONE_USE_SYS_DYN_MEM)
 #if !defined(CAPSTONE_HAS_OSXKERNEL) && !defined(_KERNEL_MODE)
 cs_malloc_t cs_mem_malloc = malloc;
@@ -143,8 +91,6 @@ cs_vsnprintf_t cs_vsnprintf = NULL;
 CAPSTONE_EXPORT
 unsigned int CAPSTONE_API cs_version(int *major, int *minor)
 {
-	archs_enable();
-
 	if (major != NULL && minor != NULL) {
 		*major = CS_API_MAJOR;
 		*minor = CS_API_MINOR;
@@ -156,8 +102,6 @@ unsigned int CAPSTONE_API cs_version(int *major, int *minor)
 CAPSTONE_EXPORT
 bool CAPSTONE_API cs_support(int query)
 {
-	archs_enable();
-
 	if (query == CS_ARCH_ALL)
 		return all_arch == ((1 << CS_ARCH_ARM) | (1 << CS_ARCH_ARM64) |
 				(1 << CS_ARCH_MIPS) | (1 << CS_ARCH_X86) |
@@ -241,8 +185,6 @@ cs_err CAPSTONE_API cs_open(cs_arch arch, cs_mode mode, csh *handle)
 		// Error: before cs_open(), dynamic memory management must be initialized
 		// with cs_option(CS_OPT_MEM)
 		return CS_ERR_MEMSETUP;
-
-	archs_enable();
 
 	if (arch < CS_ARCH_MAX && cs_arch_init[arch]) {
 		// verify if requested mode is valid
@@ -396,7 +338,6 @@ CAPSTONE_EXPORT
 cs_err CAPSTONE_API cs_option(csh ud, cs_opt_type type, size_t value)
 {
 	struct cs_struct *handle;
-	archs_enable();
 
 	// cs_option() can be called with NULL handle just for CS_OPT_MEM
 	// This is supposed to be executed before all other APIs (even cs_open())

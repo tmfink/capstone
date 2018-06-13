@@ -246,9 +246,15 @@ ifneq (,$(findstring xcore,$(CAPSTONE_ARCHS)))
 	LIBOBJ_XCORE += $(OBJDIR)/arch/XCore/XCoreModule.o
 endif
 
+# We do not want to require Python when building Capstone, so only update cs_arch_globals.c when UPDATE_CS_ARCH_GLOBALS
+# is set
+ifdef CHECK_CS_ARCH_GLOBALS
+cs_arch_globals.c: generate_cs_arch_globals.py
+	./$^ --update
+endif
 
 LIBOBJ =
-LIBOBJ += $(OBJDIR)/cs.o $(OBJDIR)/utils.o $(OBJDIR)/SStream.o $(OBJDIR)/MCInstrDesc.o $(OBJDIR)/MCRegisterInfo.o
+LIBOBJ += $(OBJDIR)/cs.o $(OBJDIR)/cs_arch_globals.o $(OBJDIR)/utils.o $(OBJDIR)/SStream.o $(OBJDIR)/MCInstrDesc.o $(OBJDIR)/MCRegisterInfo.o
 LIBOBJ += $(LIBOBJ_ARM) $(LIBOBJ_ARM64) $(LIBOBJ_MIPS) $(LIBOBJ_PPC) $(LIBOBJ_SPARC) $(LIBOBJ_SYSZ) $(LIBOBJ_X86) $(LIBOBJ_XCORE)
 LIBOBJ += $(OBJDIR)/MCInst.o
 
