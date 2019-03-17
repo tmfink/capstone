@@ -65,11 +65,11 @@ void TMS320C64x_post_printer(csh ud, cs_insn *insn, char *insn_asm, MCInst *mci)
 			if (unit != 0)
 				break;
 		}
-		tms320c64x->funit.unit = unit;
+		tms320c64x->funit_unit = unit;
 
 		SStream_Init(&ss);
-		if (tms320c64x->condition.reg != TMS320C64X_REG_INVALID)
-			SStream_concat(&ss, "[%c%s]|", (tms320c64x->condition.zero == 1) ? '!' : '|', cs_reg_name(ud, tms320c64x->condition.reg));
+		if (tms320c64x->condition_reg != TMS320C64X_REG_INVALID)
+			SStream_concat(&ss, "[%c%s]|", tms320c64x->condition_zero ? '!' : '|', cs_reg_name(ud, tms320c64x->condition_reg));
 		else
 			SStream_concat0(&ss, "||||||");
 
@@ -92,21 +92,24 @@ void TMS320C64x_post_printer(csh ud, cs_insn *insn, char *insn_asm, MCInst *mci)
 		} else {
 			tmp[0] = '\0';
 		}
-		switch(tms320c64x->funit.unit) {
+		switch(tms320c64x->funit_unit) {
 			case TMS320C64X_FUNIT_D:
-				SStream_concat(&ss, ".D%s%u", tmp, tms320c64x->funit.side);
+				SStream_concat(&ss, ".D%s%u", tmp, tms320c64x->funit_side);
 				break;
 			case TMS320C64X_FUNIT_L:
-				SStream_concat(&ss, ".L%s%u", tmp, tms320c64x->funit.side);
+				SStream_concat(&ss, ".L%s%u", tmp, tms320c64x->funit_side);
 				break;
 			case TMS320C64X_FUNIT_M:
-				SStream_concat(&ss, ".M%s%u", tmp, tms320c64x->funit.side);
+				SStream_concat(&ss, ".M%s%u", tmp, tms320c64x->funit_side);
 				break;
 			case TMS320C64X_FUNIT_S:
-				SStream_concat(&ss, ".S%s%u", tmp, tms320c64x->funit.side);
+				SStream_concat(&ss, ".S%s%u", tmp, tms320c64x->funit_side);
+				break;
+			case TMS320C64X_FUNIT_INVALID:
+			case TMS320C64X_FUNIT_NO:
 				break;
 		}
-		if (tms320c64x->funit.crosspath > 0)
+		if (tms320c64x->funit_crosspath > 0)
 			SStream_concat0(&ss, "X");
 
 		if (p != NULL)

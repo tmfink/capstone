@@ -362,28 +362,28 @@ static DecodeStatus DecodeCondRegister(MCInst *Inst, unsigned Val,
 	switch(Val) {
 		case 0:
 		case 7:
-			Inst->flat_insn->detail->tms320c64x.condition.reg = TMS320C64X_REG_INVALID;
+			Inst->flat_insn->detail->tms320c64x.condition_reg = TMS320C64X_REG_INVALID;
 			break;
 		case 1:
-			Inst->flat_insn->detail->tms320c64x.condition.reg = TMS320C64X_REG_B0;
+			Inst->flat_insn->detail->tms320c64x.condition_reg = TMS320C64X_REG_B0;
 			break;
 		case 2:
-			Inst->flat_insn->detail->tms320c64x.condition.reg = TMS320C64X_REG_B1;
+			Inst->flat_insn->detail->tms320c64x.condition_reg = TMS320C64X_REG_B1;
 			break;
 		case 3:
-			Inst->flat_insn->detail->tms320c64x.condition.reg = TMS320C64X_REG_B2;
+			Inst->flat_insn->detail->tms320c64x.condition_reg = TMS320C64X_REG_B2;
 			break;
 		case 4:
-			Inst->flat_insn->detail->tms320c64x.condition.reg = TMS320C64X_REG_A1;
+			Inst->flat_insn->detail->tms320c64x.condition_reg = TMS320C64X_REG_A1;
 			break;
 		case 5:
-			Inst->flat_insn->detail->tms320c64x.condition.reg = TMS320C64X_REG_A2;
+			Inst->flat_insn->detail->tms320c64x.condition_reg = TMS320C64X_REG_A2;
 			break;
 		case 6:
-			Inst->flat_insn->detail->tms320c64x.condition.reg = TMS320C64X_REG_A0;
+			Inst->flat_insn->detail->tms320c64x.condition_reg = TMS320C64X_REG_A0;
 			break;
 		default:
-			Inst->flat_insn->detail->tms320c64x.condition.reg = TMS320C64X_REG_INVALID;
+			Inst->flat_insn->detail->tms320c64x.condition_reg = TMS320C64X_REG_INVALID;
 			ret = MCDisassembler_Fail;
 			break;
 	}
@@ -401,13 +401,13 @@ static DecodeStatus DecodeCondRegisterZero(MCInst *Inst, unsigned Val,
 
 	switch(Val) {
 		case 0:
-			Inst->flat_insn->detail->tms320c64x.condition.zero = 0;
+			Inst->flat_insn->detail->tms320c64x.condition_zero = false;
 			break;
 		case 1:
-			Inst->flat_insn->detail->tms320c64x.condition.zero = 1;
+			Inst->flat_insn->detail->tms320c64x.condition_zero = true;
 			break;
 		default:
-			Inst->flat_insn->detail->tms320c64x.condition.zero = 0;
+			Inst->flat_insn->detail->tms320c64x.condition_zero = false;
 			ret = MCDisassembler_Fail;
 			break;
 	}
@@ -440,13 +440,13 @@ static DecodeStatus DecodeSide(MCInst *Inst, unsigned Val,
 
 	switch(Val) {
 		case 0:
-			Inst->flat_insn->detail->tms320c64x.funit.side = 1;
+			Inst->flat_insn->detail->tms320c64x.funit_side = 1;
 			break;
 		case 1:
-			Inst->flat_insn->detail->tms320c64x.funit.side = 2;
+			Inst->flat_insn->detail->tms320c64x.funit_side = 2;
 			break;
 		default:
-			Inst->flat_insn->detail->tms320c64x.funit.side = 0;
+			Inst->flat_insn->detail->tms320c64x.funit_side = 0;
 			ret = MCDisassembler_Fail;
 			break;
 	}
@@ -489,10 +489,10 @@ static DecodeStatus DecodeCrosspathX1(MCInst *Inst, unsigned Val,
 
 	switch(Val) {
 		case 0:
-			Inst->flat_insn->detail->tms320c64x.funit.crosspath = 0;
+			Inst->flat_insn->detail->tms320c64x.funit_crosspath = 0;
 			break;
 		case 1:
-			Inst->flat_insn->detail->tms320c64x.funit.crosspath = 1;
+			Inst->flat_insn->detail->tms320c64x.funit_crosspath = 1;
 			op = &Inst->Operands[0];
 			if(op->Kind == kRegister) {
 				if((op->RegVal >= TMS320C64X_REG_A0) && (op->RegVal <= TMS320C64X_REG_A31))
@@ -502,7 +502,7 @@ static DecodeStatus DecodeCrosspathX1(MCInst *Inst, unsigned Val,
 			}
 			break;
 		default:
-			Inst->flat_insn->detail->tms320c64x.funit.crosspath = -1;
+			Inst->flat_insn->detail->tms320c64x.funit_crosspath = -1;
 			ret = MCDisassembler_Fail;
 			break;
 	}
@@ -521,10 +521,10 @@ static DecodeStatus DecodeCrosspathX2(MCInst *Inst, unsigned Val,
 
 	switch(Val) {
 		case 0:
-			Inst->flat_insn->detail->tms320c64x.funit.crosspath = 0;
+			Inst->flat_insn->detail->tms320c64x.funit_crosspath = 0;
 			break;
 		case 1:
-			Inst->flat_insn->detail->tms320c64x.funit.crosspath = 1;
+			Inst->flat_insn->detail->tms320c64x.funit_crosspath = 1;
 			op = &Inst->Operands[1];
 			if(op->Kind == kRegister) {
 				if((op->RegVal >= TMS320C64X_REG_A0) && (op->RegVal <= TMS320C64X_REG_A31))
@@ -534,7 +534,7 @@ static DecodeStatus DecodeCrosspathX2(MCInst *Inst, unsigned Val,
 			}
 			break;
 		default:
-			Inst->flat_insn->detail->tms320c64x.funit.crosspath = -1;
+			Inst->flat_insn->detail->tms320c64x.funit_crosspath = -1;
 			ret = MCDisassembler_Fail;
 			break;
 	}
@@ -553,10 +553,10 @@ static DecodeStatus DecodeCrosspathX3(MCInst *Inst, unsigned Val,
 
 	switch(Val) {
 		case 0:
-			Inst->flat_insn->detail->tms320c64x.funit.crosspath = 0;
+			Inst->flat_insn->detail->tms320c64x.funit_crosspath = 0;
 			break;
 		case 1:
-			Inst->flat_insn->detail->tms320c64x.funit.crosspath = 2;
+			Inst->flat_insn->detail->tms320c64x.funit_crosspath = 2;
 			op = &Inst->Operands[2];
 			if(op->Kind == kRegister) {
 				if((op->RegVal >= TMS320C64X_REG_A0) && (op->RegVal <= TMS320C64X_REG_A31))
@@ -566,7 +566,7 @@ static DecodeStatus DecodeCrosspathX3(MCInst *Inst, unsigned Val,
 			}
 			break;
 		default:
-			Inst->flat_insn->detail->tms320c64x.funit.crosspath = -1;
+			Inst->flat_insn->detail->tms320c64x.funit_crosspath = -1;
 			ret = MCDisassembler_Fail;
 			break;
 	}

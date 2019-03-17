@@ -75,31 +75,31 @@ void print_insn_detail_tms320c64x(csh handle, cs_insn *ins)
 	}
 
 	printf("\tFunctional unit: ");
-	switch(tms320c64x->funit.unit) {
+	switch(tms320c64x->funit_unit) {
 		case TMS320C64X_FUNIT_D:
-			printf("D%u\n", tms320c64x->funit.side);
+			printf("D%u\n", tms320c64x->funit_side);
 			break;
 		case TMS320C64X_FUNIT_L:
-			printf("L%u\n", tms320c64x->funit.side);
+			printf("L%u\n", tms320c64x->funit_side);
 			break;
 		case TMS320C64X_FUNIT_M:
-			printf("M%u\n", tms320c64x->funit.side);
+			printf("M%u\n", tms320c64x->funit_side);
 			break;
 		case TMS320C64X_FUNIT_S:
-			printf("S%u\n", tms320c64x->funit.side);
+			printf("S%u\n", tms320c64x->funit_side);
 			break;
 		case TMS320C64X_FUNIT_NO:
 			printf("No Functional Unit\n");
 			break;
 		default:
-			printf("Unknown (Unit %u, Side %u)\n", tms320c64x->funit.unit, tms320c64x->funit.side);
+			printf("Unknown (Unit %u, Side %u)\n", tms320c64x->funit_unit, tms320c64x->funit_side);
 			break;
 	}
-	if(tms320c64x->funit.crosspath == 1)
+	if(tms320c64x->funit_crosspath == 1)
 		printf("\tCrosspath: 1\n");
 
-	if(tms320c64x->condition.reg != TMS320C64X_REG_INVALID)
-		printf("\tCondition: [%c%s]\n", (tms320c64x->condition.zero == 1) ? '!' : ' ', cs_reg_name(handle, tms320c64x->condition.reg));
+	if(tms320c64x->condition_reg != TMS320C64X_REG_INVALID)
+		printf("\tCondition: [%c%s]\n", tms320c64x->condition_zero ? '!' : ' ', cs_reg_name(handle, tms320c64x->condition_reg));
 	printf("\tParallel: %s\n", (tms320c64x->parallel == 1) ? "true" : "false");
 
 	printf("\n");
