@@ -75,31 +75,31 @@ char *get_detail_tms320c64x(csh *handle, cs_mode mode, cs_insn *ins)
 	}
 
 	add_str(&result, " ; Functional unit: ");
-	switch(tms320c64x->funit.unit) {
+	switch(tms320c64x->funit_unit) {
 		case TMS320C64X_FUNIT_D:
-			add_str(&result, "D%u", tms320c64x->funit.side);
+			add_str(&result, "D%u", tms320c64x->funit_side);
 			break;
 		case TMS320C64X_FUNIT_L:
-			add_str(&result, "L%u", tms320c64x->funit.side);
+			add_str(&result, "L%u", tms320c64x->funit_side);
 			break;
 		case TMS320C64X_FUNIT_M:
-			add_str(&result, "M%u", tms320c64x->funit.side);
+			add_str(&result, "M%u", tms320c64x->funit_side);
 			break;
 		case TMS320C64X_FUNIT_S:
-			add_str(&result, "S%u", tms320c64x->funit.side);
+			add_str(&result, "S%u", tms320c64x->funit_side);
 			break;
 		case TMS320C64X_FUNIT_NO:
 			add_str(&result, "No Functional Unit");
 			break;
 		default:
-			add_str(&result, "Unknown (Unit %u, Side %u)", tms320c64x->funit.unit, tms320c64x->funit.side);
+			add_str(&result, "Unknown (Unit %u, Side %u)", tms320c64x->funit_unit, tms320c64x->funit_side);
 			break;
 	}
-	if (tms320c64x->funit.crosspath == 1)
+	if (tms320c64x->funit_crosspath == 1)
 		add_str(&result, " ; Crosspath: 1");
 
-	if (tms320c64x->condition.reg != TMS320C64X_REG_INVALID)
-		add_str(&result, " ; Condition: [%c%s]", (tms320c64x->condition.zero == 1) ? '!' : ' ', cs_reg_name(*handle, tms320c64x->condition.reg));
+	if (tms320c64x->condition_reg != TMS320C64X_REG_INVALID)
+		add_str(&result, " ; Condition: [%c%s]", (tms320c64x->condition_zero == 1) ? '!' : ' ', cs_reg_name(*handle, tms320c64x->condition_reg));
 	add_str(&result, " ; Parallel: %s", (tms320c64x->parallel == 1) ? "true" : "false");
 
 	return result;
