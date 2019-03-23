@@ -671,7 +671,10 @@ class CsInsn(object):
         elif arch == CS_ARCH_XCORE:
             (self.operands) = xcore.get_arch_info(self._raw.detail.contents.arch.xcore)
         elif arch == CS_ARCH_TMS320C64X:
-            (self.condition, self.funit, self.parallel, self.operands) = tms320c64x.get_arch_info(self._raw.detail.contents.arch.tms320c64x)
+            (self.condition_reg, self.funit_unit, self.funit_side,
+             self.funit_crosspath, self.condition_zero, self.parallel,
+             self.operands
+             ) = tms320c64x.get_arch_info(self._raw.detail.contents.arch.tms320c64x)
         elif arch == CS_ARCH_M680X:
             (self.flags, self.operands) = m680x.get_arch_info(self._raw.detail.contents.arch.m680x)
         elif arch == CS_ARCH_EVM:

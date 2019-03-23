@@ -3,25 +3,6 @@ package capstone;
 
 public class TMS320C64x_const {
 
-	public static final int TMS320C64X_OP_INVALID = 0;
-	public static final int TMS320C64X_OP_REG = 1;
-	public static final int TMS320C64X_OP_IMM = 2;
-	public static final int TMS320C64X_OP_MEM = 3;
-	public static final int TMS320C64X_OP_REGPAIR = 64;
-
-	public static final int TMS320C64X_MEM_DISP_INVALID = 0;
-	public static final int TMS320C64X_MEM_DISP_CONSTANT = 1;
-	public static final int TMS320C64X_MEM_DISP_REGISTER = 2;
-
-	public static final int TMS320C64X_MEM_DIR_INVALID = 0;
-	public static final int TMS320C64X_MEM_DIR_FW = 1;
-	public static final int TMS320C64X_MEM_DIR_BW = 2;
-
-	public static final int TMS320C64X_MEM_MOD_INVALID = 0;
-	public static final int TMS320C64X_MEM_MOD_NO = 1;
-	public static final int TMS320C64X_MEM_MOD_PRE = 2;
-	public static final int TMS320C64X_MEM_MOD_POST = 3;
-
 	public static final int TMS320C64X_REG_INVALID = 0;
 	public static final int TMS320C64X_REG_AMR = 1;
 	public static final int TMS320C64X_REG_CSR = 2;
@@ -278,4 +259,23 @@ public class TMS320C64x_const {
 	public static final int TMS320C64X_FUNIT_M = 3;
 	public static final int TMS320C64X_FUNIT_S = 4;
 	public static final int TMS320C64X_FUNIT_NO = 5;
+
+	public static final int TMS320C64X_OP_INVALID = 0;
+	public static final int TMS320C64X_OP_REG = 1;
+	public static final int TMS320C64X_OP_IMM = 2;
+	public static final int TMS320C64X_OP_MEM = 3;
+	public static final int TMS320C64X_OP_REGPAIR = 64;
+
+	public static final int TMS320C64X_MEM_DISP_INVALID = 0;
+	public static final int TMS320C64X_MEM_DISP_CONSTANT = 1;
+	public static final int TMS320C64X_MEM_DISP_REGISTER = 2;
+
+	public static final int TMS320C64X_MEM_DIR_INVALID = 0;
+	public static final int TMS320C64X_MEM_DIR_FW = 1;
+	public static final int TMS320C64X_MEM_DIR_BW = 2;
+
+	public static final int TMS320C64X_MEM_MOD_INVALID = 0;
+	public static final int TMS320C64X_MEM_MOD_NO = 1;
+	public static final int TMS320C64X_MEM_MOD_PRE = 2;
+	public static final int TMS320C64X_MEM_MOD_POST = 3;
 }

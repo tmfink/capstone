@@ -7,12 +7,12 @@ from .tms320c64x_const import *
 class TMS320C64xOpMem(ctypes.Structure):
     _fields_ = (
         ('base', ctypes.c_int),
-        ('disp', ctypes.c_int),
-        ('unit', ctypes.c_int),
-        ('scaled', ctypes.c_int),
-        ('disptype', ctypes.c_int),
-        ('direction', ctypes.c_int),
-        ('modify', ctypes.c_int),
+        ('disp', ctypes.c_uint32),
+        ('unit', ctypes.c_uint8),
+        ('scaled', ctypes.c_bool),
+        ('disptype', ctypes.c_uint),
+        ('direction', ctypes.c_uint),
+        ('modify', ctypes.c_uint),
     )
 
 class TMS320C64xOpValue(ctypes.Union):
@@ -20,19 +20,6 @@ class TMS320C64xOpValue(ctypes.Union):
         ('reg', ctypes.c_uint),
         ('imm', ctypes.c_int32),
         ('mem', TMS320C64xOpMem),
-    )
-
-class TMS320C64xCondition(ctypes.Structure):
-    _fields_ = (
-        ('reg', ctypes.c_uint),
-        ('zero', ctypes.c_uint),
-    )
-
-class TMS320C64xFunctionalUnit(ctypes.Structure):
-    _fields_ = (
-        ('unit', ctypes.c_uint),
-        ('side', ctypes.c_uint),
-        ('crosspath', ctypes.c_uint),
     )
 
 class TMS320C64xOp(ctypes.Structure):
@@ -57,10 +44,14 @@ class CsTMS320C64x(ctypes.Structure):
     _fields_ = (
         ('op_count', ctypes.c_uint8),
         ('operands', TMS320C64xOp * 8),
-        ('condition', TMS320C64xCondition),
-        ('funit', TMS320C64xFunctionalUnit),
-        ('parallel', ctypes.c_uint),
+        ('condition_reg', ctypes.c_uint),
+        ('funit_unit', ctypes.c_uint),
+        ('funit_side', ctypes.c_uint8),
+        ('funit_crosspath', ctypes.c_int8),
+        ('condition_zero', ctypes.c_bool),
+        ('parallel', ctypes.c_int8),
     )
 
 def get_arch_info(a):
-    return (a.condition, a.funit, a.parallel, copy.deepcopy(a.operands[:a.op_count]))
+    return (a.condition_reg, a.funit_unit, a.funit_side, a.funit_crosspath,
+            a.condition_zero, a.parallel, copy.deepcopy(a.operands[:a.op_count]))
